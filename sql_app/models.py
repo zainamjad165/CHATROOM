@@ -1,8 +1,7 @@
 from enum import unique
-from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy import Boolean,ForeignKey,Column, Integer, String
 from .database import Base
-
-
+from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "users"
@@ -11,3 +10,17 @@ class User(Base):
     username = Column(String, unique=True)
     hashed_password = Column(String)
     is_active = Column(Boolean,default=True)
+     
+    todos = relationship("Todo", back_populates="owner")
+
+
+class Todo(Base):
+    __tablename__ = "todos"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    description = Column(String, index=True)
+    owner_id = Column(Integer, ForeignKey("users.id"))
+
+    owner = relationship("User", back_populates="todos")
+

@@ -29,6 +29,16 @@ def create_user(db: Session, user: schemas.UserCreat):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def get_todos(db: Session,owner_id: int):
+    return db.query(models.Todo).filter(models.Todo.owner_id==owner_id).all()
+
+def create_user_todo(db: Session, todo: schemas.TodoCreate, user_id: int):
+    db_todo = models.Todo(**todo.dict(), owner_id=user_id)
+    db.add(db_todo)
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
  
 def authenticate_user(fake_db, username: str, password: str):
     user = get_user(fake_db, username)

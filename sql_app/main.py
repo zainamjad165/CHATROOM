@@ -43,13 +43,27 @@ async def get_current_user( db: Session = Depends(get_db),token: str = Depends(o
 
 @app.post("/users/")
 def create_user(
-    user: schemas.UserCreat, db: Session = Depends(get_db)):
+    user: schemas.UserCreat, db: Session = Depends(get_db)
+):
     return crud.create_user(db=db, user=user)
 
 @app.get("/users/me/")
 async def read_users_me(current_user: models.User = Depends(get_current_user)):
     return current_user
 
+   
+@app.post("/createtodos/", response_model=schemas.Todo)
+def create_todo_for_user(
+    todo: schemas.TodoCreate, db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
+    return crud.create_user_todo(db=db, todo=todo, user_id=current_user.id)
+
+
+@app.get("/todos/", response_model=list[schemas.Todo])
+def read_todos(db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
+    print(current_user)
+    todos = crud.get_todos(db,current_user.id)
+    return todos
+    
 @app.post("/token", response_model=schemas.Token)
 async def login_for_access_token( db: Session = Depends(get_db),form_data: OAuth2PasswordRequestForm = Depends()):
     user = crud. authenticate_user(db, form_data.username, form_data.password)
