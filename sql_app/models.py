@@ -3,6 +3,7 @@ from sqlalchemy import Boolean,ForeignKey,Column, Integer, String
 from .database import Base
 from sqlalchemy.orm import relationship
 
+#USER TABLE
 class User(Base):
     __tablename__ = "users"
 
@@ -12,8 +13,10 @@ class User(Base):
     is_active = Column(Boolean,default=True)
      
     todos = relationship("Todo", back_populates="owner")
+    text = relationship("Text", back_populates="owner")
 
 
+#TODOS TABLE
 class Todo(Base):
     __tablename__ = "todos"
 
@@ -24,3 +27,13 @@ class Todo(Base):
 
     owner = relationship("User", back_populates="todos")
 
+
+#TEXT
+class Text(Base):
+    __tablename__ = "text"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    text = Column(String, index=True)
+    owner_id = Column(Integer, ForeignKey("users.id"))
+
+    owner = relationship("User", back_populates="text")
