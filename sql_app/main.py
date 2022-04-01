@@ -84,9 +84,11 @@ def read_todos(db: Session = Depends(get_db),current_user: models.User = Depends
 #CREATING AND SEEING TEXT FOR GROUP CHAT
 @app.post("/sendtext/", response_model=schemas.Text)
 def send_text_to_group(text: schemas.TextCreate, db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
-    return crud.create_user_text(db=db, text=text, user_id=current_user.id)
+    return crud.create_user_text(db=db, text=text, username=current_user.username)
 
 @app.get("/groupchat/", response_model=list[schemas.Text])
 def group_chat(db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
     text = crud.get_text(db)
     return text
+
+    

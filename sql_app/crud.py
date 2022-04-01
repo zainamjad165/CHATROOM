@@ -64,8 +64,8 @@ def get_todos(db: Session,owner_id: int):
 
 
 #CREATING AND GETING USER TEXT
-def create_user_text(db: Session, text: schemas.TextCreate, user_id: int):
-    db_text = models.Text(**text.dict(), owner_id=user_id)
+def create_user_text(db: Session, text: schemas.TextCreate, username: str):
+    db_text = models.Text(**text.dict(), user=username)
     db.add(db_text)
     db.commit()
     db.refresh(db_text)

@@ -34,6 +34,6 @@ class Text(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     text = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    user = Column(String, ForeignKey("users.username"))
 
     owner = relationship("User", back_populates="text")
