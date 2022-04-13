@@ -91,4 +91,15 @@ def group_chat(db: Session = Depends(get_db),current_user: models.User = Depends
     text = crud.get_text(db)
     return text
 
-    
+
+
+#CREATING AND SEEING MESSAGE
+@app.post("/sendmessage/", response_model=schemas.Message)
+def send_message(message: schemas.MessageCreate,too:int,db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
+    return crud.create_user_message(db=db, message=message,user_id=current_user.id,reciver=too)
+
+@app.get("/chat/", response_model=list[schemas.Message])
+def chat(db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
+    message = crud.get_message(db,current_user.id)
+    return message
+

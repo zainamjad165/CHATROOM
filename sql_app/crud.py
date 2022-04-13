@@ -73,3 +73,15 @@ def create_user_text(db: Session, text: schemas.TextCreate, username: str):
 
 def get_text(db: Session):
     return db.query(models.Text).all()
+
+
+#CREATING AND GETING USER Message
+def create_user_message(db: Session, message: schemas.MessageCreate, user_id: int,reciver:int):
+    db_message = models.Message(**message.dict(), owner_id=user_id,too=reciver)
+    db.add(db_message)
+    db.commit()
+    db.refresh(db_message)
+    return db_message
+
+def get_message(db: Session,owner_id: int):
+    return db.query(models.Message).filter(models.Message.too==owner_id).all()

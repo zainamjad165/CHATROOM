@@ -14,7 +14,7 @@ class User(Base):
      
     todos = relationship("Todo", back_populates="owner")
     text = relationship("Text", back_populates="owner")
-
+    message = relationship("Message", back_populates="owner")
 
 #TODOS TABLE
 class Todo(Base):
@@ -37,3 +37,15 @@ class Text(Base):
     user = Column(String, ForeignKey("users.username"))
 
     owner = relationship("User", back_populates="text")
+
+
+#MESSAGE
+class Message(Base):
+    __tablename__="message"
+
+    id = Column(Integer, primary_key=True, index=True)
+    too = Column(Integer, index=True)
+    message = Column(String, index=True)
+    owner_id = Column(Integer, ForeignKey("users.id"))
+    
+    owner = relationship("User", back_populates="message")

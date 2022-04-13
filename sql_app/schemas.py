@@ -49,4 +49,18 @@ class Text(TextBase):
 
     class Config:
         orm_mode = True      
-        
+
+
+#MESSAGE
+class MessageBase(BaseModel):
+    message:str
+
+class MessageCreate(MessageBase):
+    pass
+
+class Message(MessageBase):
+    pass
+
+    class Config:
+        orm_mode = True    
+     
