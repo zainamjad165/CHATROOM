@@ -7,7 +7,7 @@ name = "pypi"
 fatapi = "*"
 uvicorn = "*"
 sqlalchemy = "*"
-fastapi = "*"
+
 
 [dev-packages]
 
